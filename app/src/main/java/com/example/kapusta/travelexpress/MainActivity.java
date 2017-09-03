@@ -1,5 +1,6 @@
 package com.example.kapusta.travelexpress;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,9 +13,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    TextView tv1;
+    TextView tv2;
+    TextView tv3;
+
+    Fragment1 frag1;
+    Fragment2 frag2;
+    Fragment3 frag3;
+    FragmentTransaction fTrans;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +33,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        frag1 = new Fragment1();
+        frag2 = new Fragment2();
+        frag3 = new Fragment3();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -31,6 +46,10 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+//
+        tv1 = (TextView) findViewById(R.id.textView1);
+        tv2 = (TextView) findViewById(R.id.textView2);
+        tv3 = (TextView) findViewById(R.id.textView3);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -79,20 +98,25 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        fTrans = getFragmentManager().beginTransaction();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        switch (id) {
 
-        } else if (id == R.id.nav_slideshow) {
+            case R.id.nav_destination:
+                fTrans.replace(R.id.frgmCont, frag1);
+                break;
 
-        } else if (id == R.id.nav_manage) {
+            case R.id.nav_countries:
+                fTrans.replace(R.id.frgmCont, frag2);
+                break;
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+            case R.id.nav_schedule:
+                fTrans.replace(R.id.frgmCont, frag3);
+                break;
 
         }
+
+        fTrans.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
